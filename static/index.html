@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Belay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Splash / Unauthenticated view -->
+    <div id="splash" class="page">
+        <h1>Welcome to Belay</h1>
+        <p>This is a Slack-like messaging app.</p>
+        <p>
+            <button onclick="signupUser()">Sign Up</button> 
+            or <a href="/login" onclick="event.preventDefault();window.history.pushState({}, '', '/login');router();">Log In</a>
+        </p>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="page hide">
+        <h2>Login</h2>
+        <div>
+            <input id="login_username" placeholder="Username">
+        </div>
+        <div>
+            <input id="login_password" placeholder="Password" type="password">
+        </div>
+        <button onclick="loginUser()">Login</button>
+        <p class="failed" style="display:none;color:red;">Login failed. Please try again.</p>
+        <p>Or <button onclick="signupUser()">Sign Up</button></p>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile" class="page hide">
+        <h2>Profile</h2>
+        <div class="profile-actions">
+            <h3>Change Username</h3>
+            <input name="username" placeholder="New username">
+            <button onclick="updateUsername()">Update Username</button>
+
+            <h3>Change Password</h3>
+            <input name="password" placeholder="New password" type="password">
+            <input name="repeatPassword" placeholder="Repeat password" type="password">
+            <button onclick="updatePassword()">Update Password</button>
+        </div>
+        <div>
+            <button onclick="goToApp()">Back to App</button>
+            <button onclick="logoutUser()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Main App Layout -->
+    <div id="app" class="page hide">
+        <!-- Navigation (visible on narrow screens) -->
+        <div id="mobileNav" class="mobile-nav">
+            <button onclick="showChannels()">Channels</button>
+            <button onclick="showMessages()">Messages</button>
+            <button onclick="showReplies()">Replies</button>
+            <button onclick="goToProfile()">Profile</button>
+            <button onclick="logoutUser()">Logout</button>
+        </div>
+
+        <div class="main-layout">
+            <!-- Left Column: Channel List -->
+            <aside id="channelListContainer" class="column channel-list">
+                <h2>Channels</h2>
+                <div id="channelList">
+                    <!-- Channels will be dynamically populated -->
+                </div>
+                <button onclick="postChannel()">Create Channel</button>
+                <button onclick="goToProfile()">Profile</button>
+                <button onclick="logoutUser()">Logout</button>
+            </aside>
+
+            <!-- Middle Column: Messages -->
+            <main id="messagesContainer" class="column messages hide">
+                <h2>Messages</h2>
+                <div id="messagesContent">
+                    <!-- Messages will be dynamically populated -->
+                </div>
+                <div id="messageInput">
+                    <input type="text" id="newMessage" placeholder="Type your message...">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+                <button onclick="showChannels()" class="back-button">Back to Channels</button>
+            </main>
+
+            <!-- Right Column: Replies -->
+            <aside id="repliesContainer" class="column replies hide">
+                <h2>Replies</h2>
+                <div id="repliesContent">
+                    <!-- Replies will be dynamically populated -->
+                </div>
+                <!-- New reply input -->
+                <div id="replyInput">
+                    <input type="text" id="newReply" placeholder="Type your reply...">
+                    <button onclick="sendReply()">Send Reply</button>
+                </div>
+                <button class="close-replies" onclick="showMessages()">Close Replies</button>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Simple tooltip container for reactions -->
+    <div id="reactionTooltip" class="reaction-tooltip hide"></div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
